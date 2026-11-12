@@ -1,38 +1,26 @@
 package com.mubexa.ai.core
 
-enum class AIModel {
-
-    GEMINI,
-    CHATGPT,
-    CLAUDE,
-    AUTO
-
-}
-
 
 class AIManager {
 
 
-    private var currentModel =
-        AIModel.AUTO
+    private val router =
+        AIRouter()
 
 
 
-    fun setModel(
-        model: AIModel
-    ) {
+    private val providers =
+        mapOf(
 
-        currentModel = model
+            AIModel.GEMINI to GeminiProvider(),
 
-    }
+            AIModel.CHATGPT to OpenAIProvider(),
 
+            AIModel.CLAUDE to ClaudeProvider(),
 
+            AIModel.GROK to GrokProvider()
 
-    fun getModel(): AIModel {
-
-        return currentModel
-
-    }
+        )
 
 
 
@@ -41,42 +29,42 @@ class AIManager {
     ): String {
 
 
-        return when(currentModel) {
+        // Auto AI selection
+
+        val selectedAI =
+            router.selectAI(prompt)
 
 
-            AIModel.GEMINI -> {
 
-                "Gemini থেকে উত্তর আসবে: $prompt"
+        val finalAI =
+            if(selectedAI == AIModel.AUTO) {
 
-            }
+                AIModel.GEMINI
 
+            } else {
 
-            AIModel.CHATGPT -> {
-
-                "ChatGPT থেকে উত্তর আসবে: $prompt"
-
-            }
-
-
-            AIModel.CLAUDE -> {
-
-                "Claude থেকে উত্তর আসবে: $prompt"
+                selectedAI
 
             }
 
 
-            AIModel.AUTO -> {
 
-                "Auto mode: সেরা AI নির্বাচন করা হবে"
+        val provider =
+            providers[finalAI]
 
-            }
 
+
+        return if(provider != null) {
+
+            provider.ask(prompt)
+
+        } else {
+
+            "কোন AI provider পাওয়া যায়নি"
 
         }
-
 
     }
 
 
 }
-
