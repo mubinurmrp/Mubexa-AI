@@ -13,10 +13,9 @@ class AIEngine {
 
 
 
-        // User memory
-        if (
-            text.contains("আমার নাম")
-        ) {
+        // Memory save
+
+        if (text.contains("আমার নাম")) {
 
             val name =
                 input.replace(
@@ -41,7 +40,8 @@ class AIEngine {
 
 
 
-        // Ask user name
+        // Memory recall
+
         if (
             text.contains("আমার নাম কি") ||
             text.contains("আমার নাম কী")
@@ -54,21 +54,17 @@ class AIEngine {
                 )
 
 
-            return if(name != null) {
-
+            return if(name != null)
                 "আপনার নাম $name"
-
-            } else {
-
+            else
                 "আমি এখনো আপনার নাম জানি না"
-
-            }
 
         }
 
 
 
-        // Mubexa identity
+        // Identity
+
         if (
             text.contains("তোমার নাম") ||
             text.contains("তুমি কে")
@@ -80,32 +76,30 @@ class AIEngine {
 
 
 
-        // Greetings
+        // Conversation
+
         if (
-            text.contains("হ্যালো") ||
-            text.contains("হাই") ||
-            text.contains("hello")
+            text.contains("কেমন আছ")
         ) {
 
-            return "হ্যালো! আমি Mubexa AI। কিভাবে সাহায্য করতে পারি?"
+            return "আমি ভালো আছি। আপনার সাথে কথা বলতে প্রস্তুত।"
 
         }
 
 
-
-        // Feelings conversation
         if (
             text.contains("ভালো নেই") ||
             text.contains("মন খারাপ")
         ) {
 
-            return "আমি দুঃখিত। কী হয়েছে বলুন, আমি শুনছি।"
+            return "আমি শুনছি। কী হয়েছে বলুন।"
 
         }
 
 
 
-        // Simple knowledge
+        // Knowledge
+
         if (
             text.contains("বাংলাদেশের রাজধানী")
         ) {
@@ -116,9 +110,15 @@ class AIEngine {
 
 
 
-        // Default response
+        // Future AI connection point
 
-        return "আমি বুঝেছি আপনি বলেছেন: $input। আরো ভালো উত্তর দেওয়ার জন্য আমার AI Engine উন্নত করা হচ্ছে।"
+        return """
+        আমি আপনার কথা বুঝেছি:
+        $input
+        
+        আমার উন্নত AI Engine এখনো সংযুক্ত হচ্ছে।
+        খুব শীঘ্রই আমি আরও বুদ্ধিমান উত্তর দিতে পারব।
+        """.trimIndent()
 
     }
 
