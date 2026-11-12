@@ -75,5 +75,5 @@ Building Mubexa AI from scratch with passion, learning and innovation.
 ---
 
 ⭐ This project is in early development. More features will be added step by step.
-# Mebexa-AI
+# Mubexa-AI
 A Bengali AI Assistant with Voice, Vision and Multi-AI technology.
