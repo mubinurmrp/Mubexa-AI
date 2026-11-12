@@ -9,7 +9,8 @@ class AIManager {
 
 
 
-    private val providers =
+    private val providers:
+            Map<AIModel, AIProvider> =
         mapOf(
 
             AIModel.GEMINI to GeminiProvider(),
@@ -28,8 +29,6 @@ class AIManager {
         prompt: String
     ): String {
 
-
-        // Auto AI selection
 
         val selectedAI =
             router.selectAI(prompt)
