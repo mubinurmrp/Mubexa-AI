@@ -3,14 +3,12 @@ import json
 import operator
 import os
 import re
-import subprocess
+import subproces
+from config import *
 import time
 import urllib.request
 from datetime import datetime
 
-MODELS = ["gemini-flash-lite-latest", "gemini-flash-latest"]
-API_KEY = os.environ.get("GEMINI_API_KEY", "")
-memory_file = "memory.json"
 history = []
 speaker = None
 
