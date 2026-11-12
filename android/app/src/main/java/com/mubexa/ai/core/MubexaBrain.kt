@@ -5,68 +5,57 @@ class MubexaBrain(
 ) {
 
 
-    fun think(input: String): String {
-
-        val text = input.lowercase()
-
-
-        return when {
+    private val aiEngine =
+        AIEngine()
 
 
-            text.contains("আমার নাম") -> {
-
-                val name =
-                    input.replace(
-                        "আমার নাম",
-                        ""
-                    ).trim()
-
-                memory.save(
-                    "name",
-                    name
-                )
-
-                "ঠিক আছে, আমি মনে রাখলাম আপনার নাম $name"
-
-            }
+    private val conversation =
+        ConversationManager()
 
 
-            text.contains("আমার নাম কি") -> {
 
-                val name =
-                    memory.get("name")
-
-                if(name != null)
-                    "আপনার নাম $name"
-                else
-                    "আমি এখনো আপনার নাম জানি না"
-
-            }
+    fun think(
+        input: String
+    ): String {
 
 
-            text.contains("তোমার নাম") -> {
+        // Save user message
 
-                "আমার নাম Mubexa AI"
-
-            }
-
-
-            text.contains("হ্যালো") ||
-            text.contains("হাই") -> {
-
-                "হ্যালো, আমি Mubexa AI"
-
-            }
+        conversation.addUserMessage(
+            input
+        )
 
 
-            else -> {
 
-                "আমি বুঝেছি: $input"
+        // Generate answer
 
-            }
+        val reply =
+            aiEngine.generateResponse(
+                input,
+                memory
+            )
 
-        }
+
+
+        // Save Mubexa reply
+
+        conversation.addMubexaMessage(
+            reply
+        )
+
+
+        return reply
 
     }
+
+
+
+    fun getConversation():
+            List<String> {
+
+        return conversation.getHistory()
+
+    }
+
 
 }
