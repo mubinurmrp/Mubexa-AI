@@ -1,5 +1,7 @@
 package com.mubexa.ai
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.mubexa.ai.core.MemoryManager
 import com.mubexa.ai.core.MubexaBrain
 import com.mubexa.ai.core.VoiceManager
@@ -29,6 +33,26 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+
+        // Microphone permission
+
+        if (
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.RECORD_AUDIO
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.RECORD_AUDIO
+                ),
+                100
+            )
+
+        }
 
 
         val memory =
@@ -82,7 +106,7 @@ fun MubexaUI(
 
     val infiniteTransition =
         rememberInfiniteTransition(
-            label = "core"
+            label = "AI Core"
         )
 
 
@@ -100,7 +124,7 @@ fun MubexaUI(
                     RepeatMode.Reverse
             ),
 
-        label = "pulse"
+        label = "Pulse"
 
     )
 
@@ -131,26 +155,20 @@ fun MubexaUI(
         ) {
 
 
-
             Text(
 
-                text =
-                    "MUBEXA AI",
+                text = "MUBEXA AI",
 
-                color =
-                    Color.White,
+                color = Color.White,
 
-                fontSize =
-                    32.sp
+                fontSize = 32.sp
 
             )
-
 
 
             Spacer(
                 Modifier.height(50.dp)
             )
-
 
 
             Box(
@@ -168,10 +186,10 @@ fun MubexaUI(
                 contentAlignment =
                     Alignment.Center
 
-            ){
+            ) {
 
                 Text(
-                    "◉",
+                    text = "◉",
                     fontSize = 70.sp,
                     color = Color.Black
                 )
@@ -179,11 +197,9 @@ fun MubexaUI(
             }
 
 
-
             Spacer(
                 Modifier.height(30.dp)
             )
-
 
 
             Text(
@@ -197,11 +213,9 @@ fun MubexaUI(
             )
 
 
-
             Spacer(
                 Modifier.height(40.dp)
             )
-
 
 
             Button(
@@ -210,6 +224,7 @@ fun MubexaUI(
 
                     status =
                         "🎤 শুনছি..."
+
 
                     voiceManager.listen {
 
@@ -222,7 +237,7 @@ fun MubexaUI(
 
                 }
 
-            ){
+            ) {
 
                 Text(
                     "🎤 কথা বলুন"
