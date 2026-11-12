@@ -1,6 +1,12 @@
 package com.mubexa.ai.core
 
+
 class AIEngine {
+
+
+    private val aiManager =
+        AIManager()
+
 
 
     fun generateResponse(
@@ -9,13 +15,15 @@ class AIEngine {
     ): String {
 
 
-        val text = input.lowercase()
+        val text =
+            input.lowercase()
 
 
 
-        // Memory save
+        // নাম মনে রাখা
 
-        if (text.contains("আমার নাম")) {
+        if(text.contains("আমার নাম")) {
+
 
             val name =
                 input.replace(
@@ -24,7 +32,9 @@ class AIEngine {
                 ).trim()
 
 
+
             if(name.isNotEmpty()) {
+
 
                 memory.save(
                     "user_name",
@@ -40,9 +50,9 @@ class AIEngine {
 
 
 
-        // Memory recall
+        // নাম জিজ্ঞেস করা
 
-        if (
+        if(
             text.contains("আমার নাম কি") ||
             text.contains("আমার নাম কী")
         ) {
@@ -54,21 +64,22 @@ class AIEngine {
                 )
 
 
-            return if(name != null)
-                "আপনার নাম $name"
-            else
-                "আমি এখনো আপনার নাম জানি না"
+            if(name != null){
+
+                return "আপনার নাম $name"
+
+            }
 
         }
 
 
 
-        // Identity
+        // Basic identity
 
-        if (
+        if(
             text.contains("তোমার নাম") ||
             text.contains("তুমি কে")
-        ) {
+        ){
 
             return "আমি Mubexa AI, আপনার ব্যক্তিগত AI assistant"
 
@@ -76,50 +87,14 @@ class AIEngine {
 
 
 
-        // Conversation
+        // অন্য সব প্রশ্ন AI Manager এ যাবে
 
-        if (
-            text.contains("কেমন আছ")
-        ) {
+        return aiManager.ask(
+            input
+        )
 
-            return "আমি ভালো আছি। আপনার সাথে কথা বলতে প্রস্তুত।"
-
-        }
-
-
-        if (
-            text.contains("ভালো নেই") ||
-            text.contains("মন খারাপ")
-        ) {
-
-            return "আমি শুনছি। কী হয়েছে বলুন।"
-
-        }
-
-
-
-        // Knowledge
-
-        if (
-            text.contains("বাংলাদেশের রাজধানী")
-        ) {
-
-            return "বাংলাদেশের রাজধানী ঢাকা।"
-
-        }
-
-
-
-        // Future AI connection point
-
-        return """
-        আমি আপনার কথা বুঝেছি:
-        $input
-        
-        আমার উন্নত AI Engine এখনো সংযুক্ত হচ্ছে।
-        খুব শীঘ্রই আমি আরও বুদ্ধিমান উত্তর দিতে পারব।
-        """.trimIndent()
 
     }
+
 
 }
