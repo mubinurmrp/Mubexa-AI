@@ -15,25 +15,31 @@ class VoiceManager(
     private val brain: MubexaBrain
 ) {
 
-
     private val speechRecognizer =
         SpeechRecognizer.createSpeechRecognizer(context)
 
+    private lateinit var tts: TextToSpeech
 
-    private val tts =
-        TextToSpeech(context) {
 
-            tts.language =
-                Locale("bn", "BD")
+    init {
+
+        tts = TextToSpeech(context) { status ->
+
+            if (status == TextToSpeech.SUCCESS) {
+
+                tts.language = Locale("bn", "BD")
+
+            }
 
         }
+
+    }
 
 
 
     fun listen(
         onText: (String) -> Unit
     ) {
-
 
         val intent =
             Intent(
@@ -60,7 +66,6 @@ class VoiceManager(
 
                 override fun onResults(results: Bundle?) {
 
-
                     val text =
                         results
                             ?.getStringArrayList(
@@ -69,14 +74,12 @@ class VoiceManager(
                             ?.firstOrNull()
 
 
-                    if(text != null){
+                    if (text != null) {
 
                         onText(text)
 
-
                         val reply =
                             brain.think(text)
-
 
                         speak(reply)
 
@@ -106,7 +109,7 @@ class VoiceManager(
 
 
 
-    fun speak(text: String){
+    fun speak(text: String) {
 
         tts.speak(
             text,
@@ -116,7 +119,5 @@ class VoiceManager(
         )
 
     }
-
-
 
 }
